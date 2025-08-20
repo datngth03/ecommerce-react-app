@@ -42,9 +42,9 @@ import CheckoutPage from '../features/checkout/pages/CheckoutPage';
 const ProfilePage = React.lazy(
     () => import('../domains/user/pages/ProfilePage')
 );
-// const OrderHistoryPage = React.lazy(
-//     () => import('../domains/orders/pages/OrderHistoryPage')
-// );
+const OrderHistoryPage = React.lazy(
+    () => import('../domains/orders/pages/OrderHistoryPage')
+);
 // const OrderDetailPage = React.lazy(
 //     () => import('../domains/orders/pages/OrderDetailPage')
 // );
@@ -210,9 +210,9 @@ const AppRouter = () => {
                     <Route
                         path="/checkout"
                         element={
-                            <PrivateRoute>
-                                <CheckoutPage />
-                            </PrivateRoute>
+                            // <PrivateRoute>
+                            <CheckoutPage />
+                            // </PrivateRoute>
                         }
                     />
                     {/* <Route
@@ -250,12 +250,12 @@ const AppRouter = () => {
                     <Route
                         path="/profile"
                         element={
-                            <PrivateRoute>
-                                <ProfilePage />
-                            </PrivateRoute>
+                            // <PrivateRoute>
+                            <ProfilePage />
+                            // </PrivateRoute>
                         }
                     />
-                    {/* <Route
+                    <Route
                         path="/orders"
                         element={
                             <PrivateRoute>
@@ -263,7 +263,7 @@ const AppRouter = () => {
                             </PrivateRoute>
                         }
                     />
-                    <Route
+                    {/* <Route
                         path="/orders/:orderId"
                         element={
                             <PrivateRoute>

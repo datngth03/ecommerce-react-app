@@ -1,10 +1,12 @@
 // File: src/domains/cart/components/CartItem.tsx
-import React from 'react';
+// import React from 'react';
 // import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 // import { AppDispatch } from '../../../core/store';
 // import { AppDispatch } from '../../../core/store';
+import formatPrice from '../../../utils/formatters';
 import type { CartItem as CartItemType } from '../types';
+import { Minus, Plus, Trash2 } from 'lucide-react';
 
 interface CartItemProps {
     item: CartItemType;
@@ -12,75 +14,59 @@ interface CartItemProps {
     onRemoveItem: (productId: string) => void;
 }
 
-const CartItem: React.FC<CartItemProps> = ({
-    item,
-    onUpdateQuantity,
-    onRemoveItem,
-}) => {
+const CartItem = ({ item, onUpdateQuantity, onRemoveItem }: CartItemProps) => {
     return (
-        <div className="flex items-center justify-between border-b pb-4 mb-4">
-            <div className="flex items-center gap-4">
-                <Link to={`/products/${item.product.id}`}>
-                    <img
-                        src={item.product.imageUrl}
-                        alt={item.product.name}
-                        className="w-20 h-20 object-cover rounded-md"
-                    />
-                </Link>
-                <div>
-                    <h2 className="font-semibold text-lg">
-                        <Link
-                            to={`/products/${item.product.id}`}
-                            className="hover:text-blue-600"
-                        >
-                            {item.product.name}
-                        </Link>
-                    </h2>
-                    <p className="text-gray-500">
-                        ${item.product.price.toFixed(2)}
+        <div className="flex items-center justify-between py-4 border-b border-gray-200 last:border-b-0">
+            <div className="flex items-center space-x-4">
+                <img
+                    src={item.product.images[0]}
+                    alt={item.product.name}
+                    className="w-20 h-20 object-cover rounded-lg shadow-sm"
+                />
+                <div className="flex-1">
+                    <h3 className="font-semibold text-lg text-gray-800">
+                        {item.product.name}
+                    </h3>
+                    <p className="text-gray-600">
+                        {formatPrice(item.product.price)} đ
                     </p>
                 </div>
             </div>
-            <div className="flex items-center gap-4">
-                <div className="flex items-center">
+            <div className="flex items-center space-x-4">
+                <div className="flex items-center border border-gray-300 rounded-full px-2 py-1">
                     <button
                         onClick={() =>
                             onUpdateQuantity(item.product.id, item.quantity - 1)
                         }
-                        className="px-2 py-1 border rounded-l-md bg-gray-100 hover:bg-gray-200"
+                        className="p-1 text-gray-500 hover:text-gray-800 disabled:opacity-50"
+                        disabled={item.quantity <= 1}
                     >
-                        -
+                        <Minus size={16} />
                     </button>
-                    <input
-                        type="number"
-                        value={item.quantity}
-                        onChange={(e) =>
-                            onUpdateQuantity(
-                                item.product.id,
-                                Number(e.target.value)
-                            )
-                        }
-                        className="w-12 text-center border-t border-b px-1 py-1"
-                        min="1"
-                    />
+                    <span className="font-medium text-gray-800 w-8 text-center">
+                        {item.quantity}
+                    </span>
                     <button
                         onClick={() =>
                             onUpdateQuantity(item.product.id, item.quantity + 1)
                         }
-                        className="px-2 py-1 border rounded-r-md bg-gray-100 hover:bg-gray-200"
+                        className="p-1 text-gray-500 hover:text-gray-800"
                     >
-                        +
+                        <Plus size={16} />
                     </button>
+                </div>
+                <div className="w-28 text-right">
+                    <span className="text-lg font-bold text-gray-900">
+                        {formatPrice(item.product.price * item.quantity)} đ
+                    </span>
                 </div>
                 <button
                     onClick={() => onRemoveItem(item.product.id)}
-                    className="text-red-500 hover:text-red-700"
+                    className="p-2 text-red-500 rounded-full hover:bg-red-100 transition-colors"
+                    aria-label={`Xóa ${item.product.name}`}
                 >
-                    Xóa
+                    <Trash2 size={20} />
                 </button>
-                <span className="font-bold text-red-500">
-                    ${(item.product.price * item.quantity).toFixed(2)}
-                </span>
             </div>
         </div>
     );

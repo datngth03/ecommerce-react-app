@@ -15,3 +15,31 @@ export interface Order {
     total: number;
     items: OrderItem[];
 }
+
+
+
+export interface OrderDetails {
+    orderId: string;
+    orderDate: string;
+    status: 'confirmed' | 'processing' | 'shipped' | 'delivered';
+    items: OrderItem[];
+    subtotal: number;
+    shipping: number;
+    tax: number;
+    total: number;
+    shippingAddress: {
+        name: string;
+        address: string;
+        city: string;
+        state: string;
+        zipCode: string;
+        country: string;
+        phone: string;
+        email: string;
+    };
+    paymentMethod: {
+        type: string;
+        cardLast4: string;
+    };
+    estimatedDelivery: string;
+}
